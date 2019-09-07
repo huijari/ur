@@ -26,7 +26,14 @@
           "targets": "last 2 Chrome versions"
         }
       ],
-      "minify"
+      [
+        "minify",
+        {
+          "mangle": {
+            "topLevel": true
+          }
+        }
+      ]
     ]
   },
   "devDependencies": {
