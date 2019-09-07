@@ -60,22 +60,21 @@ function move(action) {
   if (action.place !== undefined) {
     player.board.push(action.place)
     player.pieces[0]--
-  }
-  if (action.ascend !== undefined) {
+  } else if (action.ascend !== undefined) {
     player.board.splice(action.ascend, 1)
     player.pieces[1]++
     if (player.pieces[1] === 7) state.winner = state.turn
-  }
-  if (action.move !== undefined) {
+  } else if (action.move !== undefined) {
     player.board.splice(action.move[0], 1)
     player.board.push(action.move[1])
-    state.phase = 0
-    if ((!action, move[2])) state.turn = +!state.turn
+    if (action.move[2]) state.turn = +!state.turn
+  } else {
+    player.board.splice(action.catch[0], 1)
+    player.board.push(action.catch[1])
+    const enemy = state.players[+!state.turn]
+    enemy.board.splice(action.catch[2], 1)
+    enemy.pieces[0]++
   }
-
-  player.board.splice(action.catch[0], 1)
-  player.board.push(action.catch[1])
-  const enemy = state.players[+!state.turn]
-  enemy.board.splice(action.catch[2], 1)
-  enemy.pieces[0]++
+  state.phase = 0
+  state.turn = +!state.turn
 }
