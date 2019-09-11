@@ -78,3 +78,9 @@ function move(action) {
   state.phase = 0
   state.turn = +!state.turn
 }
+
+function getState() {
+  return state
+}
+
+export { rollCoin, generateMove, move, getState }
