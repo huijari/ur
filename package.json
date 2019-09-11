@@ -4,8 +4,8 @@
   "description": "game of ur",
   "main": "src/index.js",
   "scripts": {
-    "build": "babel src -d dist",
-    "watch": "babel src -wd dist",
+    "build": "rollup -c",
+    "watch": "rollup -cw",
     "start": "serve"
   },
   "repository": {
@@ -18,29 +18,9 @@
     "url": "https://github.com/huijari/ur/issues"
   },
   "homepage": "https://github.com/huijari/ur#readme",
-  "babel": {
-    "presets": [
-      [
-        "@babel/preset-env",
-        {
-          "targets": "last 2 Chrome versions"
-        }
-      ],
-      [
-        "minify",
-        {
-          "mangle": {
-            "topLevel": true
-          }
-        }
-      ]
-    ]
-  },
   "devDependencies": {
-    "@babel/cli": "^7.6.0",
-    "@babel/core": "^7.6.0",
-    "@babel/preset-env": "^7.6.0",
-    "babel-preset-minify": "^0.5.1",
+    "rollup": "^1.21.2",
+    "rollup-plugin-terser": "^5.1.1",
     "serve": "^11.1.0"
   }
 }
