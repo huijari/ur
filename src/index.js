@@ -1,15 +1,24 @@
 import { html, render } from 'lit-html'
-import { move, generateMove, getState } from './state'
+import { generateMove, getState, move, rollCoin } from './state'
 
-const Player = (number, pieces) => html`
-  <section class="Player">
-    <h2>Player ${number}</h2>
-    <p><b>Ascended:</b> ${pieces[1]}</p>
-		<p><b>On hand:</b> ${pieces[0]}</p>
-		<p>0 1 1 0</p>
-		<button>roll</button>
-  </section>
-`
+const action = {
+  move: Updater(move),
+  rollCoin: Updater(rollCoin)
+}
+
+const Player = (number, { turn, phase, players }) => {
+  const player = players[number]
+  const canRoll = turn === number && phase === 0
+  return html`
+    <section class="Player">
+      <h2>Player ${number + 1}</h2>
+      <p><b>Ascended:</b> ${player.pieces[1]}</p>
+      <p><b>On hand:</b> ${player.pieces[0]}</p>
+      <p>${player.coins}</p>
+      <button ?disabled=${!canRoll} @click=${action.rollCoin}>roll</button>
+    </section>
+  `
+}
 
 const Cell = name => html`
   <div id=${name} class="Cell" style="grid-area: ${name};"></div>
@@ -42,8 +51,8 @@ const Board = ({ players }) => html`
 `
 
 const App = state => {
-  const player1 = Player(1, state.players[0].pieces)
-  const player2 = Player(2, state.players[1].pieces)
+  const player1 = Player(0, state)
+  const player2 = Player(1, state)
   return html`
     <main class="App">
       ${player1} ${Board(state)} ${player2}
@@ -51,4 +60,11 @@ const App = state => {
   `
 }
 
-render(App(getState()), document.body)
+function Updater(stateChanger) {
+  return (...args) => {
+    stateChanger(...args)
+    render(App(getState()), document.body)
+  }
+}
+
+Updater(() => 0)()

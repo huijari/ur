@@ -6,19 +6,22 @@ const state = {
   players: [
     {
       board: [],
-      pieces: [7, 0]
+      pieces: [7, 0],
+      coins: [0, 0, 0, 0]
     },
     {
       board: [],
-      pieces: [7, 0]
+      pieces: [7, 0],
+      coins: [0, 0, 0, 0]
     }
   ]
 }
 
 function rollCoin() {
-  const value = [0, 0, 0, 0].map(() => Math.random() >= 5)
+  const coins = [0, 0, 0, 0].map(() => +(Math.random() >= 0.5))
+  state.players[state.turn].coins = coins
+  state.coin = coins.reduce((acc, x) => acc + x, 0)
   state.phase = 1
-  state.coin = value
 }
 
 function hasPiece(position) {
