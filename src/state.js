@@ -46,21 +46,21 @@ function generateMove(position) {
   const piece = hasPiece(position)
   if (piece.enemy !== undefined) return { invalid: true }
 
-  const next = position + state.coin
-  const nextIsSafe = safes.includes(next)
   if (piece.empty) {
     if (
       state.players[state.turn].pieces[0] === 0 ||
       position !== state.coin - 1
     )
       return { invalid: true }
-    return { place: [position, nextIsSafe] }
+    return { place: [position, safes.includes(position)] }
   }
 
+  const next = position + state.coin
   if (next === 14) return { ascend: piece.self }
   if (next > 14) return { invalid: true }
   const pieceAtNext = hasPiece(next)
   if (pieceAtNext.self !== undefined) return { invalid: true }
+  const nextIsSafe = safes.includes(next)
   if (pieceAtNext.empty) return { move: [piece.self, next, nextIsSafe] }
 
   if (nextIsSafe) return { invalid: true }

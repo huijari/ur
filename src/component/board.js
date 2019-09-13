@@ -35,8 +35,11 @@ const Board = ({ turn, phase, players }) => {
     const action = generateMove(cell[0])
     const valid = action.invalid === undefined
     if (valid) anyValid = true
-    const enabled = valid && phase === 1 && turn === cell[1]
-    return Cell(name, action, occupied[name], enabled)
+    const enabled = valid && phase === 1
+    const owned =
+      (turn === 0 && !name.startsWith('r')) ||
+      (turn === 1 && !name.startsWith('l'))
+    return Cell(name, action, occupied[name], enabled && owned)
   })
   if (!anyValid) pass()
   return html`

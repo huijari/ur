@@ -4,7 +4,7 @@ import { classMap } from 'lit-html/directives/class-map'
 import { move } from '../actions'
 
 const Cell = (name, action, player, enabled) => {
-  const handler = () => move(action)
+  const handler = () => enabled && move(action)
   const classes = {
     Cell: true,
     'Cell--enabled': enabled,
