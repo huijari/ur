@@ -2,11 +2,11 @@ const state = {
   winner: null,
   turn: 0,
   phase: 0,
-  coin: 0,
+  coin: 1,
   players: [
     {
       board: [],
-      pieces: [7, 0],
+      pieces: [1, 6],
       coins: [0, 0, 0, 0]
     },
     {
@@ -21,7 +21,13 @@ function rollCoin() {
   const coins = [0, 0, 0, 0].map(() => +(Math.random() >= 0.5))
   state.players[state.turn].coins = coins
   state.coin = coins.reduce((acc, x) => acc + x, 0)
-  state.phase = 1
+  if (state.coin === 0) state.turn = +!state.turn
+  else state.phase = 1
+}
+
+function pass() {
+  state.phase = 0
+  state.turn = +!state.turn
 }
 
 function hasPiece(position) {
@@ -40,7 +46,10 @@ function generateMove(position) {
   const piece = hasPiece(position)
   if (piece.enemy !== undefined) return { invalid: true }
   if (piece.empty) {
-    if (state.players[state.turn].pieces[0] === 0 || position !== state.coin)
+    if (
+      state.players[state.turn].pieces[0] === 0 ||
+      position !== state.coin - 1
+    )
       return { invalid: true }
     return { place: position }
   }
@@ -51,10 +60,10 @@ function generateMove(position) {
   const pieceAtNext = hasPiece(next)
   if (pieceAtNext.self !== undefined) return { invalid: true }
   const nextIsSafe = safes.includes(next)
-  if (pieceAtNext.empty) return { move: [piece.self, position, nextIsSafe] }
+  if (pieceAtNext.empty) return { move: [piece.self, next, nextIsSafe] }
 
   if (nextIsSafe) return { invalid: true }
-  return { catch: [piece.self, position, pieceAtNext.enemy] }
+  return { catch: [piece.self, next, pieceAtNext.enemy] }
 }
 
 function move(action) {
@@ -78,12 +87,11 @@ function move(action) {
     enemy.board.splice(action.catch[2], 1)
     enemy.pieces[0]++
   }
-  state.phase = 0
-  state.turn = +!state.turn
+  pass()
 }
 
 function getState() {
   return state
 }
 
-export { rollCoin, generateMove, move, getState }
+export { rollCoin, pass, generateMove, move, getState }
