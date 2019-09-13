@@ -19,7 +19,7 @@ const Board = ({ turn, phase, players }) => {
     ...players[0].board.reduce(playerBoardPieces(0), {}),
     ...players[1].board.reduce(playerBoardPieces(1), {})
   }
-  let anyValid = false
+  let anyValid = phase === 0
   const cells = [
     ...Array(14)
       .fill(0)

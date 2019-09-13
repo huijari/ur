@@ -79,3 +79,10 @@ body {
   text-decoration: line-through;
   border-color: white;
 }
+.Winner {
+  margin: 16px auto;
+  max-width: 48em;
+}
+.Winner__token {
+  width: 128px;
+}
