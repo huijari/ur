@@ -6,7 +6,7 @@ const state = {
   players: [
     {
       board: [],
-      pieces: [1, 6],
+      pieces: [7, 0],
       coins: [0, 0, 0, 0]
     },
     {
