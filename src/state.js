@@ -45,21 +45,22 @@ const safes = [3, 7, 13]
 function generateMove(position) {
   const piece = hasPiece(position)
   if (piece.enemy !== undefined) return { invalid: true }
+
+  const next = position + state.coin
+  const nextIsSafe = safes.includes(next)
   if (piece.empty) {
     if (
       state.players[state.turn].pieces[0] === 0 ||
       position !== state.coin - 1
     )
       return { invalid: true }
-    return { place: position }
+    return { place: [position, nextIsSafe] }
   }
 
-  const next = position + state.coin
   if (next === 14) return { ascend: piece.self }
   if (next > 14) return { invalid: true }
   const pieceAtNext = hasPiece(next)
   if (pieceAtNext.self !== undefined) return { invalid: true }
-  const nextIsSafe = safes.includes(next)
   if (pieceAtNext.empty) return { move: [piece.self, next, nextIsSafe] }
 
   if (nextIsSafe) return { invalid: true }
@@ -70,8 +71,9 @@ function move(action) {
   if (action.invalid) return
   const player = state.players[state.turn]
   if (action.place !== undefined) {
-    player.board.push(action.place)
+    player.board.push(action.place[0])
     player.pieces[0]--
+    if (action.place[1]) state.turn = +!state.turn
   } else if (action.ascend !== undefined) {
     player.board.splice(action.ascend, 1)
     player.pieces[1]++
