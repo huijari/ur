@@ -25,7 +25,9 @@ const Player = (number, { turn, phase, players }) => {
         <b>ascended: ${player.pieces[1]}</b>
         <b>on hand: ${player.pieces[0]}</b>
       </div>
-      <p>${player.coins.map(Coin)}</p>
+      <div class="Player__coins">
+        ${player.coins.map(Coin)}
+      </div>
       <button ?disabled=${!canRoll} @click=${rollCoin} class="Player__roll">
         roll
       </button>

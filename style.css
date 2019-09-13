@@ -62,7 +62,13 @@ body {
   display: grid;
   grid-gap: 8px;
   grid-template-columns: 1fr;
-  margin-top: 16px;
+  margin: 16px 0 8px;
+}
+.Player__coins {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  grid-gap: 4px;
+  margin: 8px 0 16px;
 }
 .Player__roll {
   background: 0;
@@ -85,4 +91,10 @@ body {
 }
 .Winner__token {
   width: 128px;
+}
+
+@media (max-width: 48em) {
+  .Player__coins {
+    grid-template-columns: repeat(2, 1fr);
+  }
 }
